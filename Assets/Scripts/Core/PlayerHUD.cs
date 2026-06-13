@@ -7,7 +7,7 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private TMP_Text timerLabel;
     [SerializeField] private TMP_Text collectiblesLabel;
     [SerializeField] private TMP_Text winStatsLabel;
-    [SerializeField] private RookController controller;
+    [SerializeField] private PlayerController controller;
 
     private bool won;
 
@@ -34,7 +34,7 @@ public class PlayerHUD : MonoBehaviour
         if (GameTimer.Instance != null)
             timerLabel.text = GameTimer.Instance.FormattedTime();
 
-        if (won) return;
+        if (won || controller == null) return;
 
         string movement;
         if (controller.IsCrouching)
