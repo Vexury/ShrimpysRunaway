@@ -12,7 +12,20 @@ public class SandTrail : MonoBehaviour
     [SerializeField] private int maxMarks = 20;
 
     private readonly List<SandTrailMark> marks = new();
+    private readonly Queue<SandTrailMark> _pool = new();
     private float accumulator;
+
+    private void Start()
+    {
+        for (int i = 0; i < maxMarks; i++)
+        {
+            GameObject obj = Instantiate(markPrefab);
+            SandTrailMark mark = obj.GetComponent<SandTrailMark>();
+            mark.Init(trackManager);
+            obj.SetActive(false);
+            _pool.Enqueue(mark);
+        }
+    }
 
     private void Update()
     {
@@ -25,27 +38,17 @@ public class SandTrail : MonoBehaviour
 
         accumulator -= spawnEvery;
 
-        GameObject obj = Instantiate(markPrefab);
-        obj.transform.position = new Vector3(transform.position.x, groundY, 0f);
-        SandTrailMark mark = obj.GetComponent<SandTrailMark>();
-        mark.Init(trackManager);
-        marks.Add(mark);
-
-        if (marks.Count > maxMarks)
+        if (marks.Count >= maxMarks)
         {
-            Destroy(marks[0].gameObject);
+            SandTrailMark oldest = marks[0];
             marks.RemoveAt(0);
+            oldest.gameObject.SetActive(false);
+            _pool.Enqueue(oldest);
         }
 
-        UpdateAlphas();
-    }
-
-    private void UpdateAlphas()
-    {
-        for (int i = 0; i < marks.Count; i++)
-        {
-            float t = marks.Count > 1 ? (float)i / (marks.Count - 1) : 1f;
-            marks[i].SetAlpha(t);
-        }
+        SandTrailMark mark = _pool.Dequeue();
+        mark.transform.position = new Vector3(transform.position.x, groundY, 0f);
+        mark.gameObject.SetActive(true);
+        marks.Add(mark);
     }
 }

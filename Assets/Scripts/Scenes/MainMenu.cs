@@ -50,11 +50,11 @@ public class MainMenu : MonoBehaviour
         for (int i = 0; i < entries.Length; i++)
         {
             leaderboardNames[i] = entries[i].Name;
-            Debug.Log($"[MainMenu] Leaderboard entry {i}: '{entries[i].Name}'");
+            //Debug.Log($"[MainMenu] Leaderboard entry {i}: '{entries[i].Name}'");
         }
 
         leaderboardReady = true;
-        Debug.Log($"[MainMenu] Leaderboard ready. {leaderboardNames.Length} names loaded.");
+        //Debug.Log($"[MainMenu] Leaderboard ready. {leaderboardNames.Length} names loaded.");
         PopulateLeaderboard(entries);
         SetPlayButtonState(nameInput != null ? nameInput.text : HighscoreManager.PlayerName);
     }
@@ -77,7 +77,7 @@ public class MainMenu : MonoBehaviour
         bool hasName = !string.IsNullOrWhiteSpace(name);
         bool isReserved = IsLeaderboardName(name);
         bool ready = hasName && !isReserved;
-        Debug.Log($"[MainMenu] SetPlayButtonState: name='{name}' hasName={hasName} isReserved={isReserved} ready={ready}");
+        //Debug.Log($"[MainMenu] SetPlayButtonState: name='{name}' hasName={hasName} isReserved={isReserved} ready={ready}");
 
         if (playButton != null) playButton.interactable = ready;
         if (playButtonLabel != null)
@@ -91,12 +91,12 @@ public class MainMenu : MonoBehaviour
     private bool IsLeaderboardName(string name)
     {
         string savedName = originalName;
-        Debug.Log($"[MainMenu] IsLeaderboardName: checking '{name}' against {leaderboardNames.Length} entries, savedName='{savedName}'");
+        //Debug.Log($"[MainMenu] IsLeaderboardName: checking '{name}' against {leaderboardNames.Length} entries, savedName='{savedName}'");
         foreach (var entry in leaderboardNames)
         {
             if (!string.Equals(entry, name, StringComparison.OrdinalIgnoreCase)) continue;
             if (string.Equals(entry, savedName, StringComparison.OrdinalIgnoreCase)) continue;
-            Debug.Log($"[MainMenu] '{name}' is taken by leaderboard entry '{entry}'");
+            //Debug.Log($"[MainMenu] '{name}' is taken by leaderboard entry '{entry}'");
             return true;
         }
         return false;

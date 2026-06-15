@@ -37,6 +37,8 @@ public class TrackManager : MonoBehaviour
 
     private readonly List<GameObject> activeCollectibles = new();
     private readonly List<GameObject> activeObstacles = new();
+    private readonly Dictionary<GameObject, Queue<GameObject>> _pools = new();
+    private readonly Dictionary<GameObject, GameObject> _prefabLookup = new();
     private float furthestSpawnedZ;
     private float worldSpeed;
     private float specialTimer;
@@ -52,6 +54,32 @@ public class TrackManager : MonoBehaviour
     public float SpawnInterval { get; set; } = 8f;
 
     public void ResetSpeed() => worldSpeed *= 0.9f;
+
+    private GameObject GetPooled(GameObject prefab)
+    {
+        if (_pools.TryGetValue(prefab, out Queue<GameObject> queue) && queue.Count > 0)
+        {
+            GameObject obj = queue.Dequeue();
+            obj.SetActive(true);
+            return obj;
+        }
+        return Instantiate(prefab, transform);
+    }
+
+    private void ReturnPooled(GameObject instance)
+    {
+        if (!_prefabLookup.TryGetValue(instance, out GameObject prefab)) return;
+        _prefabLookup.Remove(instance);
+        instance.SetActive(false);
+        Collectible col = instance.GetComponent<Collectible>();
+        if (col != null) col.MagnetPulled = false;
+        if (!_pools.TryGetValue(prefab, out Queue<GameObject> queue))
+        {
+            queue = new Queue<GameObject>();
+            _pools[prefab] = queue;
+        }
+        queue.Enqueue(instance);
+    }
 
     private void Start()
     {
@@ -108,7 +136,7 @@ public class TrackManager : MonoBehaviour
             GameObject c = activeCollectibles[i];
             if (c == null || c.transform.localPosition.z < -despawnDistance)
             {
-                if (c != null) Destroy(c);
+                if (c != null) ReturnPooled(c);
                 activeCollectibles.RemoveAt(i);
             }
         }
@@ -118,7 +146,7 @@ public class TrackManager : MonoBehaviour
             GameObject o = activeObstacles[i];
             if (o == null || o.transform.localPosition.z < -despawnDistance)
             {
-                if (o != null) Destroy(o);
+                if (o != null) ReturnPooled(o);
                 activeObstacles.RemoveAt(i);
             }
         }
@@ -139,7 +167,8 @@ public class TrackManager : MonoBehaviour
                 float x = (lane - 2) * laneWidth;
                 float zOffset = UnityEngine.Random.Range(-SpawnInterval * 0.3f, SpawnInterval * 0.3f);
                 CollectibleEntry entry = PickWeighted(obstaclePrefabs);
-                GameObject o = Instantiate(entry.prefab, transform);
+                GameObject o = GetPooled(entry.prefab);
+                _prefabLookup[o] = entry.prefab;
                 o.transform.localPosition = new Vector3(x, entry.yOffset, centerZ + zOffset);
                 activeObstacles.Add(o);
                 laneBlocked[lane] = true;
@@ -162,7 +191,8 @@ public class TrackManager : MonoBehaviour
                 float x = (coinLane - 2) * laneWidth;
                 for (int i = 0; i < count; i++)
                 {
-                    GameObject c = Instantiate(coinEntry.prefab, transform);
+                    GameObject c = GetPooled(coinEntry.prefab);
+                    _prefabLookup[c] = coinEntry.prefab;
                     c.transform.localPosition = new Vector3(x, coinEntry.yOffset, startZ + i * step);
                     activeCollectibles.Add(c);
                 }
@@ -180,7 +210,8 @@ public class TrackManager : MonoBehaviour
                 float x = (lane - 2) * laneWidth;
                 float zOffset = UnityEngine.Random.Range(-SpawnInterval * 0.3f, SpawnInterval * 0.3f);
                 CollectibleEntry entry = PickWeighted(specialPrefabs);
-                GameObject c = Instantiate(entry.prefab, transform);
+                GameObject c = GetPooled(entry.prefab);
+                _prefabLookup[c] = entry.prefab;
                 c.transform.localPosition = new Vector3(x, entry.yOffset, centerZ + zOffset);
                 activeCollectibles.Add(c);
                 specialTimer = 0f;

@@ -13,7 +13,25 @@ public class PalmTreeSpawner : MonoBehaviour
     private const float DespawnDistance = 10f;
 
     private readonly List<GameObject> activeTrees = new();
+    private readonly Queue<GameObject> _pool = new();
     private float furthestSpawnedZ;
+
+    private GameObject GetTree()
+    {
+        if (_pool.Count > 0)
+        {
+            GameObject t = _pool.Dequeue();
+            t.SetActive(true);
+            return t;
+        }
+        return Instantiate(palmPrefab, transform);
+    }
+
+    private void ReturnTree(GameObject tree)
+    {
+        tree.SetActive(false);
+        _pool.Enqueue(tree);
+    }
 
     private void Start()
     {
@@ -49,7 +67,7 @@ public class PalmTreeSpawner : MonoBehaviour
                 float x = side * Random.Range(sideXMin, sideXMax);
                 float z = centerZ + Random.Range(-StripInterval * 0.3f, StripInterval * 0.3f);
 
-                GameObject tree = Instantiate(palmPrefab, transform);
+                GameObject tree = GetTree();
                 tree.transform.position = new Vector3(x, palmPrefab.transform.position.y, z);
                 tree.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
                 tree.transform.localScale = Vector3.one * Random.Range(0.8f, 1.4f);
@@ -74,7 +92,7 @@ public class PalmTreeSpawner : MonoBehaviour
             GameObject tree = activeTrees[i];
             if (tree == null || tree.transform.position.z < -DespawnDistance)
             {
-                if (tree != null) Destroy(tree);
+                if (tree != null) ReturnTree(tree);
                 activeTrees.RemoveAt(i);
             }
         }
