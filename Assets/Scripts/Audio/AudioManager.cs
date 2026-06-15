@@ -7,6 +7,7 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource ambienceSource;
     [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource loopingSfxSource;
 
     [Header("Volume Settings")]
     [Range(0f, 1f)] [SerializeField] private float masterVolume = 1f;
@@ -37,6 +38,12 @@ public class AudioManager : Singleton<AudioManager>
         if (sfxSource == null)
         {
             sfxSource = CreateAudioSource("SFXSource");
+        }
+
+        if (loopingSfxSource == null)
+        {
+            loopingSfxSource = CreateAudioSource("LoopingSFXSource");
+            loopingSfxSource.loop = true;
         }
 
         ApplyVolumes();
@@ -94,6 +101,12 @@ public class AudioManager : Singleton<AudioManager>
         musicFadeCoroutine = StartCoroutine(FadeOutCoroutine(musicSource, duration));
     }
 
+    public void FadeOutMusicWithPitch(float duration)
+    {
+        if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+        musicFadeCoroutine = StartCoroutine(FadeOutWithPitchCoroutine(musicSource, duration));
+    }
+
     public void FadeInMusic(AudioClip clip, float duration)
     {
         if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
@@ -135,6 +148,12 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (ambienceFadeCoroutine != null) StopCoroutine(ambienceFadeCoroutine);
         ambienceFadeCoroutine = StartCoroutine(FadeOutCoroutine(ambienceSource, duration));
+    }
+
+    public void FadeOutAmbienceWithPitch(float duration)
+    {
+        if (ambienceFadeCoroutine != null) StopCoroutine(ambienceFadeCoroutine);
+        ambienceFadeCoroutine = StartCoroutine(FadeOutWithPitchCoroutine(ambienceSource, duration));
     }
 
     public void FadeInAmbience(AudioClip clip, float duration)
@@ -211,16 +230,56 @@ public class AudioManager : Singleton<AudioManager>
         ApplyVolumes();
     }
 
+    public float MusicVolume    => musicVolume;
+    public float AmbienceVolume => ambienceVolume;
+    public float SFXVolume      => sfxVolume;
+
+    public void SetMusicPitch(float pitch) => musicSource.pitch = pitch;
+
+    public void PlayLoopingSFX(AudioClip clip, float volume = 1f)
+    {
+        if (loopingSfxSource.clip == clip && loopingSfxSource.isPlaying) return;
+        loopingSfxSource.clip = clip;
+        loopingSfxSource.volume = sfxVolume * masterVolume * volume;
+        loopingSfxSource.Play();
+    }
+
+    public void StopLoopingSFX()
+    {
+        loopingSfxSource.Stop();
+    }
+
     private void ApplyVolumes()
     {
         musicSource.volume = musicVolume * masterVolume;
         ambienceSource.volume = ambienceVolume * masterVolume;
         sfxSource.volume = sfxVolume * masterVolume;
+        loopingSfxSource.volume = sfxVolume * masterVolume;
     }
 
     #endregion
 
     #region Fade Coroutines
+
+    private IEnumerator FadeOutWithPitchCoroutine(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+        float startPitch  = source.pitch;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = elapsed / duration;
+            source.volume = Mathf.Lerp(startVolume, 0f, t);
+            source.pitch  = Mathf.Lerp(startPitch,  0f, t);
+            yield return null;
+        }
+
+        source.Stop();
+        source.volume = startVolume;
+        source.pitch  = startPitch;
+    }
 
     private IEnumerator FadeOutCoroutine(AudioSource source, float duration)
     {

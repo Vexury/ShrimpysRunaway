@@ -7,6 +7,7 @@ public class MagnetPickup : MonoBehaviour
     [SerializeField] private float hoverAmplitude = 0.2f;
     [SerializeField] private float hoverSpeed = 1.5f;
     [SerializeField] private float spinSpeed = 90f;
+    [SerializeField] private AudioClip collectSound;
 
     private float baseY;
 
@@ -35,6 +36,8 @@ public class MagnetPickup : MonoBehaviour
         if (magnet == null) return;
 
         magnet.Activate(duration);
+        if (collectSound != null && AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFXWithPitchVariation(collectSound);
         Destroy(gameObject);
     }
 }

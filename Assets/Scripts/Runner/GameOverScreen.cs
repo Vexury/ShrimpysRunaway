@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,16 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private float maxAngle = 30f;
     [SerializeField] private int blurDownsample = 6;
 
+    [Header("Score Display")]
+    [SerializeField] private TMP_Text runDistanceLabel;
+    [SerializeField] private TMP_Text bestDistanceLabel;
+    [SerializeField] private GameObject newBestIndicator;
+    [SerializeField] private TrackManager trackManager;
+
+    [Header("Global Leaderboard")]
+    [SerializeField] private Transform leaderboardContainer;
+    [SerializeField] private LeaderboardRow leaderboardRowPrefab;
+
     private void OnEnable() => PlayerHealth.OnDeath += OnDeath;
     private void OnDisable() => PlayerHealth.OnDeath -= OnDeath;
 
@@ -25,7 +36,10 @@ public class GameOverScreen : MonoBehaviour
         RenderTexture capture = new RenderTexture(Screen.width, Screen.height, 0);
         ScreenCapture.CaptureScreenshotIntoRenderTexture(capture);
         RenderTexture screenshot = new RenderTexture(Screen.width, Screen.height, 0);
-        Graphics.Blit(capture, screenshot, new Vector2(1f, -1f), new Vector2(0f, 1f));
+        if (SystemInfo.graphicsUVStartsAtTop)
+            Graphics.Blit(capture, screenshot, new Vector2(1f, -1f), new Vector2(0f, 1f));
+        else
+            Graphics.Blit(capture, screenshot);
         capture.Release();
 
         RenderTexture blurRT = new RenderTexture(Screen.width / blurDownsample, Screen.height / blurDownsample, 0);
@@ -43,7 +57,29 @@ public class GameOverScreen : MonoBehaviour
         Piece[] pieces = SpawnPieces(shatterRoot, screenshot);
         yield return AnimatePieces(pieces);
 
+        float distance = trackManager != null ? trackManager.DistanceTravelled : 0f;
+        bool newBest = HighscoreManager.SubmitRun(distance);
+
+        if (runDistanceLabel != null)  runDistanceLabel.text  = $"{distance:0} m";
+        if (bestDistanceLabel != null) bestDistanceLabel.text = $"{HighscoreManager.BestDistance:0} m";
+        if (newBestIndicator != null)  newBestIndicator.SetActive(newBest);
+
         panel.SetActive(true);
+
+        string playerName = HighscoreManager.PlayerName;
+        if (!string.IsNullOrWhiteSpace(playerName) && distance > 0f && DreamLoService.Instance != null)
+        {
+            if (newBest) DreamLoService.Instance.Submit(playerName, distance);
+            DreamLoService.Instance.FetchLeaderboard(PopulateLeaderboard, delay: newBest ? 2f : 0f);
+        }
+    }
+
+    private void PopulateLeaderboard(DreamLoService.Entry[] entries)
+    {
+        if (leaderboardContainer == null || leaderboardRowPrefab == null) return;
+        foreach (Transform child in leaderboardContainer) Destroy(child.gameObject);
+        for (int i = 0; i < entries.Length; i++)
+            Instantiate(leaderboardRowPrefab, leaderboardContainer).Populate(entries[i].Name, entries[i].Score, i + 1);
     }
 
     private struct Piece
@@ -111,6 +147,7 @@ public class GameOverScreen : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
+        Collectible.ResetCounts();
         SceneController.Instance.ReloadCurrentScene();
     }
 }

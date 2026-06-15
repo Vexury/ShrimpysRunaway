@@ -24,6 +24,7 @@ public class TrackManager : MonoBehaviour
 
     [Header("Special Collectibles")]
     [SerializeField] private CollectibleEntry[] specialPrefabs;
+    [SerializeField] private float specialCooldown = 10f;
 
     [Header("Obstacles")]
     [SerializeField] private CollectibleEntry[] obstaclePrefabs;
@@ -32,13 +33,18 @@ public class TrackManager : MonoBehaviour
     [SerializeField] private float laneWidth = 2.5f;
     [SerializeField] private float lookaheadDistance = 60f;
     [SerializeField] private float despawnDistance = 10f;
+    [SerializeField] private float initialClearDistance = 20f;
 
     private readonly List<GameObject> activeCollectibles = new();
     private readonly List<GameObject> activeObstacles = new();
     private float furthestSpawnedZ;
     private float worldSpeed;
+    private float specialTimer;
 
     public float WorldSpeed => worldSpeed;
+    public float DistanceTravelled { get; private set; }
+    public float InitialSpeed => initialSpeed;
+    public float MaxSpeed => maxSpeed;
     public bool SpawningEnabled { get; set; } = true;
     public float ObstacleChance { get; set; } = 0f;
     public float CoinChance { get; set; } = 0f;
@@ -50,14 +56,15 @@ public class TrackManager : MonoBehaviour
     private void Start()
     {
         worldSpeed = initialSpeed;
-        furthestSpawnedZ = -SpawnInterval;
+        furthestSpawnedZ = initialClearDistance;
         FillAhead();
     }
 
     private void Update()
     {
         worldSpeed = Mathf.MoveTowards(worldSpeed, maxSpeed, acceleration * Time.deltaTime);
-
+        DistanceTravelled += worldSpeed * Time.deltaTime;
+        specialTimer += Time.deltaTime;
         float scroll = worldSpeed * Time.deltaTime;
         furthestSpawnedZ -= scroll;
         ScrollCollectibles(scroll);
@@ -163,7 +170,7 @@ public class TrackManager : MonoBehaviour
         }
 
         // Special collectibles
-        if (specialPrefabs != null && specialPrefabs.Length > 0)
+        if (specialPrefabs != null && specialPrefabs.Length > 0 && specialTimer >= specialCooldown)
         {
             for (int lane = 0; lane < 5; lane++)
             {
@@ -176,6 +183,8 @@ public class TrackManager : MonoBehaviour
                 GameObject c = Instantiate(entry.prefab, transform);
                 c.transform.localPosition = new Vector3(x, entry.yOffset, centerZ + zOffset);
                 activeCollectibles.Add(c);
+                specialTimer = 0f;
+                break;
             }
         }
     }

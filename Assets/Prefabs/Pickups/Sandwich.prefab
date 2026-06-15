@@ -161,4 +161,4 @@ MonoBehaviour:
   hoverSpeed: 1.5
   spinSpeed: 0
   collectibleType: 1
-  collectSound: {fileID: 8300000, guid: 2cc182155d9b99445833446592f6a809, type: 3}
+  collectSound: {fileID: 8300000, guid: a3267d26184f6684a82d2086c37b21ac, type: 3}

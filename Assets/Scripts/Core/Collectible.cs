@@ -17,6 +17,7 @@ public class Collectible : MonoBehaviour
     private static readonly Dictionary<CollectibleType, int> counts = new();
 
     public static int GetCount(CollectibleType type) => counts.TryGetValue(type, out int n) ? n : 0;
+    public static void ResetCounts() => counts.Clear();
 
     private float baseY;
 

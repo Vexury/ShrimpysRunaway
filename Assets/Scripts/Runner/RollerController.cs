@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -13,6 +14,13 @@ public class RollerController : MonoBehaviour
     [SerializeField] private CinemachineImpulseSource impulseSource;
     [SerializeField] private float impulseForce = 1f;
     [SerializeField] private float impulseCooldown = 0.5f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip rollClip;
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip doubleJumpClip;
+    [SerializeField] private AudioClip landClip;
+    [SerializeField] private AudioClip laneSwapClip;
 
     [Header("Movement")]
     [SerializeField] private float laneWidth = 2.5f;
@@ -40,6 +48,9 @@ public class RollerController : MonoBehaviour
     private float jumpBufferTimer;
     private int groundContactCount;
     private bool doubleJumpUsed;
+    private bool wasGrounded;
+
+    public static event Action OnObstacleHit;
 
     public float ForwardSpeed => trackManager != null ? trackManager.WorldSpeed : 0f;
     public int CurrentLane => currentLane;
@@ -82,6 +93,21 @@ public class RollerController : MonoBehaviour
     private void Update()
     {
         RollVisual();
+        UpdateRollAudio();
+    }
+
+    private void UpdateRollAudio()
+    {
+        if (rollClip == null || AudioManager.Instance == null) return;
+        bool grounded = IsGrounded;
+        if (grounded && !wasGrounded)
+        { 
+            AudioManager.Instance.PlayLoopingSFX(rollClip, 0.3f);
+            if (landClip != null) AudioManager.Instance.PlaySFX(landClip);
+        }
+        else if (!grounded && wasGrounded)
+            AudioManager.Instance.StopLoopingSFX();
+        wasGrounded = grounded;
     }
 
     private void ApplyLateralMovement()
@@ -120,6 +146,8 @@ public class RollerController : MonoBehaviour
             Vector3 vel = rb.linearVelocity;
             vel.y = jumpForce;
             rb.linearVelocity = vel;
+            if (jumpClip != null && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(jumpClip);
         }
         else if ((allowDoubleJump || HasDoubleJump) && !doubleJumpUsed)
         {
@@ -129,6 +157,9 @@ public class RollerController : MonoBehaviour
             rb.linearVelocity = vel;
             doubleJumpUsed = true;
             HasDoubleJump = false;
+            AudioClip clip = doubleJumpClip != null ? doubleJumpClip : jumpClip;
+            if (clip != null && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(clip);
         }
     }
 
@@ -149,6 +180,7 @@ public class RollerController : MonoBehaviour
         if (!other.CompareTag("Obstacle") || trackManager == null) return;
 
         trackManager.ResetSpeed();
+        OnObstacleHit?.Invoke();
         if (Time.time - impulseLastFiredTime <= impulseCooldown) return;
 
         impulseLastFiredTime = Time.time;
@@ -203,6 +235,8 @@ public class RollerController : MonoBehaviour
         {
             leanSign = Mathf.Sign(currentLane - prev);
             leanTimer = 0f;
+            if (laneSwapClip != null && AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX(laneSwapClip);
         }
         targetX = LaneToX(currentLane);
     }

@@ -52,7 +52,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7, y: 0.7, z: 0.05}
+  m_Size: {x: 0.4, y: 0.6, z: 0.05}
   m_Center: {x: 0, y: 0, z: 0.0032542571}
 --- !u!1 &6281991102363939138
 GameObject:
@@ -159,8 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flipbook
   meshRenderer: {fileID: 4415374678650081701}
   flipbookSprites:
-  - {fileID: 21300000, guid: 69c3b8009e7ec3c4680761edf0a9919c, type: 3}
-  - {fileID: 21300000, guid: cd742eb05bc26f24f8ebb64dc9ff7166, type: 3}
-  - {fileID: 21300000, guid: 61f068a98be157440bed52e915ebe807, type: 3}
-  - {fileID: 21300000, guid: 6dd1c44a9f86e6c4b908f9c287013f62, type: 3}
+  - {fileID: 21300000, guid: 0eb7c54080cb44442814087d06e31ba9, type: 3}
+  - {fileID: 21300000, guid: 7de01eec5940ede4b9e0425d909a50ab, type: 3}
+  - {fileID: 21300000, guid: dcd24c5a38ec3aa47a3f0742fd139adf, type: 3}
+  - {fileID: 21300000, guid: d557a39be41ad674e8fc7ad4a8b20676, type: 3}
   interval: 0.2

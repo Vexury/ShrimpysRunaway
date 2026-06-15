@@ -9,9 +9,9 @@ public class VolumeSettings : MonoBehaviour
 
     private void Start()
     {
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        ambienceSlider.value = PlayerPrefs.GetFloat("AmbienceVolume", 1f);
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        musicSlider.value    = AudioManager.Instance.MusicVolume;
+        ambienceSlider.value = AudioManager.Instance.AmbienceVolume;
+        sfxSlider.value      = AudioManager.Instance.SFXVolume;
 
         musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
         ambienceSlider.onValueChanged.AddListener(AudioManager.Instance.SetAmbienceVolume);

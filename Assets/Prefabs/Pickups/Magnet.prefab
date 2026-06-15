@@ -71,6 +71,7 @@ MonoBehaviour:
   hoverAmplitude: 0.2
   hoverSpeed: 1.5
   spinSpeed: 90
+  collectSound: {fileID: 8300000, guid: 4dbe0ebb053070b43af04f19b4ab1def, type: 3}
 --- !u!1001 &8841732025862326030
 PrefabInstance:
   m_ObjectHideFlags: 0

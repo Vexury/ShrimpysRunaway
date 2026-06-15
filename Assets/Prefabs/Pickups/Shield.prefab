@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2050827997424526640}
   - component: {fileID: 6074848319972327504}
-  - component: {fileID: 965669252384935343}
+  - component: {fileID: 7519872131859584149}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -55,7 +55,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.38869384, y: 2.4242415, z: 1.842304}
   m_Center: {x: 0.035653096, y: -0.28411984, z: 0.0022283942}
---- !u!114 &965669252384935343
+--- !u!114 &7519872131859584149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,13 +64,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1557562458528628245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a546bce5820aed6448cc6ccb4bb06d5b, type: 3}
+  m_Script: {fileID: 11500000, guid: c472bb5a29ad4614cae6d2ea36c73855, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Collectible
+  m_EditorClassIdentifier: Assembly-CSharp::ShieldPickup
   hoverAmplitude: 0.2
   hoverSpeed: 1.5
   spinSpeed: 90
-  collectibleType: 0
+  collectSound: {fileID: 8300000, guid: c1fa30cdebdaef2459c6b93810e735da, type: 3}
 --- !u!1001 &5790978932173529844
 PrefabInstance:
   m_ObjectHideFlags: 0
