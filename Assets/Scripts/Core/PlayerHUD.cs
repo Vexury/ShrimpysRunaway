@@ -5,21 +5,17 @@ public class PlayerHUD : MonoBehaviour
 {
     [SerializeField] private TMP_Text coinLabel;
     [SerializeField] private TMP_Text distanceLabel;
-    [SerializeField] private TMP_Text streakLabel;
-    [SerializeField] private TMP_Text streakNameLabel;
     [SerializeField] private TrackManager trackManager;
 
     private void OnEnable()
     {
         Collectible.OnCollected += OnCollected;
-        StreakManager.OnRankChanged += OnRankChanged;
         CoinWallet.OnTotalChanged += OnWalletChanged;
     }
 
     private void OnDisable()
     {
         Collectible.OnCollected -= OnCollected;
-        StreakManager.OnRankChanged -= OnRankChanged;
         CoinWallet.OnTotalChanged -= OnWalletChanged;
     }
 
@@ -43,11 +39,5 @@ public class PlayerHUD : MonoBehaviour
     private void OnWalletChanged(int total)
     {
         if (coinLabel != null) coinLabel.text = total.ToString();
-    }
-
-    private void OnRankChanged(string rank, string name)
-    {
-        if (streakLabel != null)     streakLabel.text     = rank;
-        if (streakNameLabel != null) streakNameLabel.text = name;
     }
 }

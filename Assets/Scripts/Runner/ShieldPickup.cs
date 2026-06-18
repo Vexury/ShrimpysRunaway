@@ -6,7 +6,8 @@ public class ShieldPickup : PickupBase
     {
         PlayerHealth health = other.GetComponent<PlayerHealth>();
         if (health == null) return false;
-        health.Heal(1);
+        int amount = UpgradeManager.LastResortLevel > 0 && health.CurrentHP == 1 ? 2 : 1;
+        health.Heal(amount);
         return true;
     }
 }

@@ -83,13 +83,13 @@ public class AudioManager : Singleton<AudioManager>
 
     #region Music
 
-    public void PlayMusic(AudioClip clip, bool loop = true, float volumeScale = 1f)
+    public void PlayMusic(AudioClip clip, bool loop = true)
     {
         if (musicSource.clip == clip && musicSource.isPlaying) return;
 
         musicSource.clip = clip;
         musicSource.loop = loop;
-        musicSource.volume = masterVolume * musicVolume * volumeScale;
+        musicSource.volume = Curve(musicVolume) * Curve(masterVolume);
         musicSource.Play();
     }
 
@@ -126,30 +126,30 @@ public class AudioManager : Singleton<AudioManager>
         musicSource.clip = clip;
         musicSource.volume = 0f;
         musicSource.Play();
-        musicFadeCoroutine = StartCoroutine(FadeInCoroutine(musicSource, duration, musicVolume * masterVolume));
+        musicFadeCoroutine = StartCoroutine(FadeInCoroutine(musicSource, duration, Curve(musicVolume) * Curve(masterVolume)));
     }
 
-    public void FadeInMusicWithPitch(AudioClip clip, float duration, float volumeScale = 1f)
+    public void FadeInMusicWithPitch(AudioClip clip, float duration)
     {
         if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
         musicSource.clip = clip;
         musicSource.volume = 0f;
         musicSource.pitch = 0f;
         musicSource.Play();
-        musicFadeCoroutine = StartCoroutine(FadeInWithPitchCoroutine(musicSource, duration, masterVolume * musicVolume * volumeScale));
+        musicFadeCoroutine = StartCoroutine(FadeInWithPitchCoroutine(musicSource, duration, Curve(musicVolume) * Curve(masterVolume)));
     }
 
     #endregion
 
     #region Ambience
 
-    public void PlayAmbience(AudioClip clip, bool loop = true, float volumeScale = 1f)
+    public void PlayAmbience(AudioClip clip, bool loop = true)
     {
         if (ambienceSource.clip == clip && ambienceSource.isPlaying) return;
 
         ambienceSource.clip = clip;
         ambienceSource.loop = loop;
-        ambienceSource.volume = masterVolume * ambienceVolume * volumeScale;
+        ambienceSource.volume = Curve(ambienceVolume) * Curve(masterVolume);
         ambienceSource.Play();
     }
 
@@ -186,17 +186,17 @@ public class AudioManager : Singleton<AudioManager>
         ambienceSource.clip = clip;
         ambienceSource.volume = 0f;
         ambienceSource.Play();
-        ambienceFadeCoroutine = StartCoroutine(FadeInCoroutine(ambienceSource, duration, ambienceVolume * masterVolume));
+        ambienceFadeCoroutine = StartCoroutine(FadeInCoroutine(ambienceSource, duration, Curve(ambienceVolume) * Curve(masterVolume)));
     }
 
-    public void FadeInAmbienceWithPitch(AudioClip clip, float duration, float volumeScale = 1f)
+    public void FadeInAmbienceWithPitch(AudioClip clip, float duration)
     {
         if (ambienceFadeCoroutine != null) StopCoroutine(ambienceFadeCoroutine);
         ambienceSource.clip = clip;
         ambienceSource.volume = 0f;
         ambienceSource.pitch = 0f;
         ambienceSource.Play();
-        ambienceFadeCoroutine = StartCoroutine(FadeInWithPitchCoroutine(ambienceSource, duration, masterVolume * ambienceVolume * volumeScale));
+        ambienceFadeCoroutine = StartCoroutine(FadeInWithPitchCoroutine(ambienceSource, duration, Curve(ambienceVolume) * Curve(masterVolume)));
     }
 
     #endregion
@@ -206,13 +206,13 @@ public class AudioManager : Singleton<AudioManager>
     public void PlaySFX(AudioClip clip)
     {
         if (clip == null) return;
-        sfxSource.PlayOneShot(clip, sfxVolume * masterVolume);
+        sfxSource.PlayOneShot(clip, Curve(sfxVolume) * Curve(masterVolume));
     }
 
     public void PlaySFX(AudioClip clip, float volumeScale)
     {
         if (clip == null) return;
-        sfxSource.PlayOneShot(clip, volumeScale * sfxVolume * masterVolume);
+        sfxSource.PlayOneShot(clip, volumeScale * Curve(sfxVolume) * Curve(masterVolume));
     }
 
     public void PlaySFXAtPoint(AudioClip clip, Vector3 position, float minDistance = 10f, float maxDistance = 50f)
@@ -226,7 +226,7 @@ public class AudioManager : Singleton<AudioManager>
         src.spatialBlend = 1f;
         src.minDistance = minDistance;
         src.maxDistance = maxDistance;
-        src.volume = sfxVolume * masterVolume;
+        src.volume = Curve(sfxVolume) * Curve(masterVolume);
         src.Play();
 
         Destroy(go, clip.length);
@@ -239,7 +239,7 @@ public class AudioManager : Singleton<AudioManager>
         GameObject tempAudio = new GameObject("TempAudio");
         AudioSource tempSource = tempAudio.AddComponent<AudioSource>();
         tempSource.clip = clip;
-        tempSource.volume = Mathf.Clamp01(sfxVolume * masterVolume * volumeScale);
+        tempSource.volume = Mathf.Clamp01(Curve(sfxVolume) * Curve(masterVolume) * volumeScale);
         float pitch = Random.Range(minPitch, maxPitch);
         tempSource.pitch = pitch;
         tempSource.Play();
@@ -285,7 +285,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (loopingSfxSource.clip == clip && loopingSfxSource.isPlaying) return;
         loopingSfxSource.clip = clip;
-        loopingSfxSource.volume = sfxVolume * masterVolume * volume;
+        loopingSfxSource.volume = Curve(sfxVolume) * Curve(masterVolume) * volume;
         loopingSfxSource.Play();
     }
 
@@ -294,12 +294,15 @@ public class AudioManager : Singleton<AudioManager>
         loopingSfxSource.Stop();
     }
 
+    private static float Curve(float v) => v * v;
+
     private void ApplyVolumes()
     {
-        musicSource.volume = musicVolume * masterVolume;
-        ambienceSource.volume = ambienceVolume * masterVolume;
-        sfxSource.volume = sfxVolume * masterVolume;
-        loopingSfxSource.volume = sfxVolume * masterVolume;
+        float master = Curve(masterVolume);
+        musicSource.volume       = Curve(musicVolume)    * master;
+        ambienceSource.volume    = Curve(ambienceVolume) * master;
+        sfxSource.volume         = Curve(sfxVolume)      * master;
+        loopingSfxSource.volume  = Curve(sfxVolume)      * master;
     }
 
     #endregion

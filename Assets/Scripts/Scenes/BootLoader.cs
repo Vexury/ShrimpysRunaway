@@ -7,10 +7,7 @@ public class BootLoader : MonoBehaviour
 
     private void Start()
     {
-        // Optional: Initialize other systems here
         InitializeManagers();
-
-        // Load first real scene
         StartCoroutine(LoadFirstScene());
     }
 
@@ -22,10 +19,7 @@ public class BootLoader : MonoBehaviour
 
     private IEnumerator LoadFirstScene()
     {
-        // Optional: Show splash screen, company logo, etc.
         yield return new WaitForSeconds(bootDelay);
-
-        // Load main menu
         SceneController.Instance.LoadNextScene();
     }
 }

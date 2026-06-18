@@ -18,6 +18,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Transform leaderboardContainer;
     [SerializeField] private LeaderboardRow leaderboardRowPrefab;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip menuMusicLoopClip;
+    [SerializeField] private AudioClip menuAmbienceLoopClip;
+
     private string[] leaderboardNames = Array.Empty<string>();
     private bool leaderboardReady = false;
     private string originalName;
@@ -48,6 +52,9 @@ public class MainMenu : MonoBehaviour
             leaderboardReady = true;
             SetPlayButtonState(HighscoreManager.PlayerName);
         }
+
+        if (menuMusicLoopClip != null) AudioManager.Instance.PlayMusic(menuMusicLoopClip);
+        if (menuAmbienceLoopClip != null) AudioManager.Instance.PlayAmbience(menuAmbienceLoopClip);
     }
 
     private void OnLeaderboardFetched(DreamLoService.Entry[] entries)

@@ -76,6 +76,7 @@ MonoBehaviour:
   magnetable: 1
   yellowCoin: {fileID: 492551593889905037}
   redCoin: {fileID: 1205562245287803463}
+  redCoinValue: 5
 --- !u!1001 &726360201666561244
 PrefabInstance:
   m_ObjectHideFlags: 0

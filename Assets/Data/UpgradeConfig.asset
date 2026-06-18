@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd58c47e1fb8874aa1dd0377dcaa7f1, type: 3}
   m_Name: UpgradeConfig
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeConfig
-  headStartCosts: c8000000900100002003000040060000
+  headStartCosts: c80000002c0100009001000058020000
   hpBoostCosts: 2c010000
   coinBoosterCosts: 960000002c010000c20100005802000020030000
-  extraLifeCosts: f4010000
+  magnetBoostCosts: 64000000c80000009001000058020000
+  fakeUpgradeCosts: e8030000d0070000b80b0000a00f000088130000

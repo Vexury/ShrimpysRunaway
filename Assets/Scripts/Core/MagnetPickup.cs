@@ -8,7 +8,7 @@ public class MagnetPickup : PickupBase
     {
         MagnetEffect magnet = other.GetComponent<MagnetEffect>();
         if (magnet == null) return false;
-        magnet.Activate(duration);
+        magnet.Activate(duration * UpgradeManager.MagnetDurationMultiplier);
         return true;
     }
 }

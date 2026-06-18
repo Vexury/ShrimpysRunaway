@@ -17,6 +17,17 @@ public class TrackManager : MonoBehaviour
         public float yOffset = 0f;
     }
 
+    [Serializable]
+    public class ObstacleEntry
+    {
+        public GameObject prefab;
+        public float weight = 1f;
+        public float yOffset = 0f;
+        public bool blocksOwnLane = true;
+        public bool blocksLeftLane = false;
+        public bool blocksRightLane = true;
+    }
+
     [Header("Coins")]
     [SerializeField] private CollectibleEntry[] coinPrefabs;
     [SerializeField] private int coinLineMin = 3;
@@ -27,7 +38,7 @@ public class TrackManager : MonoBehaviour
     [SerializeField] private float specialCooldown = 10f;
 
     [Header("Obstacles")]
-    [SerializeField] private CollectibleEntry[] obstaclePrefabs;
+    [SerializeField] private ObstacleEntry[] obstaclePrefabs;
 
     [Header("Track")]
     [SerializeField] private float laneWidth = 2.5f;
@@ -179,14 +190,25 @@ public class TrackManager : MonoBehaviour
 
                 float x = (lane - 2) * laneWidth;
                 float zOffset = UnityEngine.Random.Range(-SpawnInterval * 0.3f, SpawnInterval * 0.3f);
-                CollectibleEntry entry = PickWeighted(obstaclePrefabs);
+                ObstacleEntry entry = PickWeighted(obstaclePrefabs);
                 GameObject o = GetPooled(entry.prefab);
                 _prefabLookup[o] = entry.prefab;
                 o.transform.localPosition = new Vector3(x, entry.yOffset, centerZ + zOffset);
                 activeObstacles.Add(o);
-                laneBlocked[lane] = true;
-                if (lane + 1 < 5) laneBlocked[lane + 1] = true;
+                if (entry.blocksOwnLane)               laneBlocked[lane] = true;
+                if (entry.blocksLeftLane  && lane > 0) laneBlocked[lane - 1] = true;
+                if (entry.blocksRightLane && lane < 4) laneBlocked[lane + 1] = true;
             }
+        }
+
+        // Block lanes where an obstacle from a previous strip would make a collectible unreachable
+        foreach (var o in activeObstacles)
+        {
+            if (o == null) continue;
+            float oz = o.transform.localPosition.z;
+            if (oz < centerZ - SpawnInterval || oz >= centerZ) continue;
+            int obLane = Mathf.RoundToInt(o.transform.localPosition.x / laneWidth + 2);
+            if (obLane >= 0 && obLane < 5) laneBlocked[obLane] = true;
         }
 
         // Coin line
@@ -255,6 +277,24 @@ public class TrackManager : MonoBehaviour
     }
 
     private CollectibleEntry PickWeighted(CollectibleEntry[] entries)
+    {
+        float total = 0f;
+        foreach (var entry in entries)
+            total += entry.weight;
+
+        float roll = UnityEngine.Random.Range(0f, total);
+        float cumulative = 0f;
+        foreach (var entry in entries)
+        {
+            cumulative += entry.weight;
+            if (roll < cumulative)
+                return entry;
+        }
+
+        return entries[entries.Length - 1];
+    }
+
+    private ObstacleEntry PickWeighted(ObstacleEntry[] entries)
     {
         float total = 0f;
         foreach (var entry in entries)

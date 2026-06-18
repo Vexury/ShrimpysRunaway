@@ -17,6 +17,8 @@ public class Collectible : PickupBase
     public static int GetCount(CollectibleType type) => counts.TryGetValue(type, out int n) ? n : 0;
     public static void ResetCounts() => counts.Clear();
 
+    [SerializeField] private int redCoinValue = 3;
+
     private int coinValue = 1;
 
     public bool Magnetable   => magnetable;
@@ -26,7 +28,7 @@ public class Collectible : PickupBase
 
     public void SetRed(bool red)
     {
-        coinValue = red ? 3 : 1;
+        coinValue = red ? redCoinValue : 1;
         if (yellowCoin != null) yellowCoin.SetActive(!red);
         if (redCoin != null) redCoin.SetActive(red);
     }

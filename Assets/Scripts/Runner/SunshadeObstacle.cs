@@ -15,13 +15,6 @@ public class SunshadeObstacle : MonoBehaviour
         if (textures != null && textures.Length > 0)
             mpb.SetTexture(BaseMap, textures[Random.Range(0, textures.Length)]);
 
-        if (Random.value < 0.5f)
-        {
-            Vector3 scale = transform.localScale;
-            scale.x *= -1f;
-            transform.localScale = scale;
-        }
-
         meshRenderer.SetPropertyBlock(mpb);
     }
 }

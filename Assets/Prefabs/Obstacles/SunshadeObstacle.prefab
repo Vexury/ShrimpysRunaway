@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7844134055764075488}
-  - component: {fileID: 3456567335789879645}
-  - component: {fileID: 3180392229363114022}
   - component: {fileID: 5995106758791020999}
+  - component: {fileID: 5125905039377873142}
+  - component: {fileID: 5822384545530467360}
   m_Layer: 0
   m_Name: Sunshade
   m_TagString: Untagged
@@ -29,12 +29,31 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 4542651704837056027}
   m_Father: {fileID: 7616746414286825353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3456567335789879645
+--- !u!114 &5995106758791020999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244347601523747963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9bc3098faccecf43b9699e6c256316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SunshadeObstacle
+  meshRenderer: {fileID: 5822384545530467360}
+  textures:
+  - {fileID: 2800000, guid: 0c001cbff57728447a110cb834c3e9e2, type: 3}
+  - {fileID: 2800000, guid: 408903f1324d2594b968c383815feac1, type: 3}
+  - {fileID: 2800000, guid: 806d443f45d8b3b4899d381bbdaf2de7, type: 3}
+  - {fileID: 2800000, guid: 7504ab64502def348a293e8a09ab369f, type: 3}
+--- !u!33 &5125905039377873142
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +61,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2244347601523747963}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3180392229363114022
+--- !u!23 &5822384545530467360
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,24 +110,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5995106758791020999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2244347601523747963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9bc3098faccecf43b9699e6c256316f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SunshadeObstacle
-  meshRenderer: {fileID: 3180392229363114022}
-  textures:
-  - {fileID: 2800000, guid: 0c001cbff57728447a110cb834c3e9e2, type: 3}
-  - {fileID: 2800000, guid: 408903f1324d2594b968c383815feac1, type: 3}
-  - {fileID: 2800000, guid: 806d443f45d8b3b4899d381bbdaf2de7, type: 3}
-  - {fileID: 2800000, guid: 7504ab64502def348a293e8a09ab369f, type: 3}
 --- !u!1 &4831916043463568555
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +119,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7616746414286825353}
-  - component: {fileID: 8331275511560712041}
   m_Layer: 0
   m_Name: SunshadeObstacle
   m_TagString: Obstacle
@@ -136,19 +136,52 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7844134055764075488}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8331275511560712041
+--- !u!1 &8533724369152605877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4542651704837056027}
+  - component: {fileID: 7719889945807010268}
+  - component: {fileID: 1967812386804359141}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Obstacle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4542651704837056027
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8533724369152605877}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.16504757, w: 0.9862857}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7844134055764075488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -19}
+--- !u!65 &7719889945807010268
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4831916043463568555}
+  m_GameObject: {fileID: 8533724369152605877}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -161,5 +194,26 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.7, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.049707737, y: 0.45390832, z: 0.050000004}
+  m_Center: {x: -0.06677842, y: -0.15689632, z: 0}
+--- !u!65 &1967812386804359141
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8533724369152605877}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.23874506, y: 0.20393255, z: 0.050000004}
+  m_Center: {x: -0.07821051, y: 0.18196638, z: 0}

@@ -30,15 +30,15 @@ public class BeachLevel : MonoBehaviour
 
         if (fadeIn)
         {
-            if (music != null)    AudioManager.Instance.FadeInMusicWithPitch(music, fadeDuration, 0.5f);
-            if (ambience != null) AudioManager.Instance.FadeInAmbienceWithPitch(ambience, fadeDuration, 5.0f);
+            if (music != null)    AudioManager.Instance.FadeInMusicWithPitch(music, fadeDuration);
+            if (ambience != null) AudioManager.Instance.FadeInAmbienceWithPitch(ambience, fadeDuration);
             StartCoroutine(ClearFadeIn(fadeDuration));
             fadingIn = true;
         }
         else
         {
-            if (music != null)    AudioManager.Instance.PlayMusic(music, true, 0.5f);
-            if (ambience != null) AudioManager.Instance.PlayAmbience(ambience, true, 5.0f);
+            if (music != null)    AudioManager.Instance.PlayMusic(music);
+            if (ambience != null) AudioManager.Instance.PlayAmbience(ambience);
         }
     }
 

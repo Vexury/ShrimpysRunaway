@@ -18,7 +18,6 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float armorDestroyDelay = 3f;
 
     public static event Action OnDeath;
-    public static event Action OnExtraLifeTriggered;
     public int CurrentHP => currentHP;
     public int MaxHP => maxHP;
 
@@ -76,8 +75,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (AudioManager.Instance != null)
         {
-            bool extraLifeSaves = currentHP <= 0 && UpgradeManager.ExtraLifeLevel > 0 && !UpgradeManager.ExtraLifeUsedThisRun;
-            AudioClip clip = currentHP <= 0 && !extraLifeSaves ? deathClip : damageClip;
+            AudioClip clip = currentHP <= 0 ? deathClip : damageClip;
             if (clip != null) AudioManager.Instance.PlaySFX(clip);
         }
 
@@ -85,16 +83,7 @@ public class PlayerHealth : MonoBehaviour
             LaunchArmor(armorPieces[armorIndex++]);
 
         if (currentHP <= 0)
-        {
-            if (UpgradeManager.ExtraLifeLevel > 0 && !UpgradeManager.ExtraLifeUsedThisRun)
-            {
-                UpgradeManager.UseExtraLife();
-                currentHP = 1;
-                OnExtraLifeTriggered?.Invoke();
-                return;
-            }
             OnDeath?.Invoke();
-        }
     }
 
     private void LaunchArmor(GameObject piece)
