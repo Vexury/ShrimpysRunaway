@@ -1,12 +1,11 @@
-using System.Collections;
 using UnityEngine;
 
 public class BeachLevel : MonoBehaviour
 {
     [SerializeField] private AudioClip music;
+    [SerializeField] private AudioClip musicLoop;
+    [SerializeField] private double musicLoopOffset = 0.0;
     [SerializeField] private AudioClip ambience;
-    [SerializeField] private bool fadeIn = false;
-    [SerializeField] private float fadeDuration = 2f;
 
     [Header("Music Pitch by Speed")]
     [SerializeField] private TrackManager trackManager;
@@ -20,7 +19,6 @@ public class BeachLevel : MonoBehaviour
     [SerializeField] private AudioClip deathClip;
 
     private bool dead;
-    private bool fadingIn;
 
     private void OnEnable()  => PlayerHealth.OnDeath += OnDeath;
     private void OnDisable() => PlayerHealth.OnDeath -= OnDeath;
@@ -29,29 +27,19 @@ public class BeachLevel : MonoBehaviour
     {
         if (AudioManager.Instance == null) return;
 
-        if (fadeIn)
+        if (music != null)
         {
-            if (music != null)    AudioManager.Instance.FadeInMusicWithPitch(music, fadeDuration);
-            if (ambience != null) AudioManager.Instance.FadeInAmbienceWithPitch(ambience, fadeDuration);
-            StartCoroutine(ClearFadeIn(fadeDuration));
-            fadingIn = true;
+            if (musicLoop != null)
+                AudioManager.Instance.PlayMusicWithIntro(music, musicLoop, musicLoopOffset);
+            else
+                AudioManager.Instance.PlayMusic(music);
         }
-        else
-        {
-            if (music != null)    AudioManager.Instance.PlayMusic(music);
-            if (ambience != null) AudioManager.Instance.PlayAmbience(ambience);
-        }
-    }
-
-    private IEnumerator ClearFadeIn(float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        fadingIn = false;
+        if (ambience != null) AudioManager.Instance.PlayAmbience(ambience);
     }
 
     private void Update()
     {
-        if (dead || fadingIn || trackManager == null || AudioManager.Instance == null) return;
+        if (dead || trackManager == null || AudioManager.Instance == null) return;
 
         float t = Mathf.InverseLerp(trackManager.InitialSpeed, trackManager.MaxSpeed, trackManager.WorldSpeed);
         AudioManager.Instance.SetMusicPitch(Mathf.Lerp(pitchMin, pitchMax, pitchCurve.Evaluate(t)));

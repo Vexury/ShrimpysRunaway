@@ -30,6 +30,6 @@ public class PlayerHUD : MonoBehaviour
 
     private void OnWalletChanged(int total)
     {
-        if (coinLabel != null) coinLabel.text = total.ToString();
+        if (coinLabel != null) coinLabel.text = (total + Collectible.GetCount(CollectibleType.Coin)).ToString();
     }
 }

@@ -36,8 +36,9 @@ MonoBehaviour:
     - line: '|   useOnDemandResources: 0'
     - line: '|   accelerometerFrequency: 60'
     - line: '|   companyName: CursedCowGames'
-    - line: '|   productName: Shrimpy''s Runaway'
-    - line: '|   defaultCursor: {instanceID: 0}'
+    - line: '|   productName: ShrimpAway'
+    - line: '|   defaultCursor: {fileID: 2800000, guid: f6eae3d68f4b2be44845031622fbd362,
+        type: 3}'
     - line: '|   cursorHotspot: {x: 0, y: 0}'
     - line: '|   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b:
         0.1254902, a: 1}'
@@ -167,7 +168,7 @@ MonoBehaviour:
     - line: '|   loadStoreDebugModeEnabled: 0'
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
-    - line: '|   bundleVersion: 0.4.1'
+    - line: '|   bundleVersion: 1.0.0'
     - line: '|   preloadedAssets:'
     - line: '|   - {fileID: -944628639613478452, guid: eaf0ccef20753904ab8d77fed206f525,
         type: 3}'
@@ -324,7 +325,7 @@ MonoBehaviour:
     - line: '|   - m_BuildTarget: '
     - line: '|     m_Icons:'
     - line: '|     - serializedVersion: 2'
-    - line: '|       m_Icon: {fileID: 2800000, guid: 701db2b66b3901242ba06dcb96717c93,
+    - line: '|       m_Icon: {fileID: 2800000, guid: 3dfeba1b026c4274d87dc1036503db7a,
         type: 3}'
     - line: '|       m_Width: 128'
     - line: '|       m_Height: 128'

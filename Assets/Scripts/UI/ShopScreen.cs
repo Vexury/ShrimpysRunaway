@@ -9,6 +9,8 @@ public class ShopScreen : MonoBehaviour
     [SerializeField] private TMP_Text walletLabel;
     [SerializeField] private UpgradeEntry[] upgrades;
 
+    public Action OnPurchase;
+
     [Serializable]
     private struct UpgradeEntry
     {
@@ -33,7 +35,9 @@ public class ShopScreen : MonoBehaviour
 
     public void OnBuyClicked(int typeIndex)
     {
-        UpgradeManager.Purchase((UpgradeType)typeIndex);
+        var type = (UpgradeType)typeIndex;
+        bool success = UpgradeManager.Purchase(type);
+        if (success) OnPurchase?.Invoke();
         Refresh();
     }
 

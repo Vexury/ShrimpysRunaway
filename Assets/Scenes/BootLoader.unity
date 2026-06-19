@@ -178,7 +178,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: LOGO
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8d670ba700a7fbe459d1057340030ad6, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -2127371704722673473, guid: 8d670ba700a7fbe459d1057340030ad6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -256,6 +256,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50367116}
   m_CullTransparentMesh: 1
+--- !u!1 &150950426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 150950428}
+  - component: {fileID: 150950427}
+  m_Layer: 0
+  m_Name: CursorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &150950427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150950426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a41bf6d90685081419f6f25c5e58fe8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorManager
+  idleCursor: {fileID: 2800000, guid: 8a485cfe909bcc8478d08ea2351842c2, type: 3}
+  clickCursor: {fileID: 2800000, guid: ddd4d43ca0347b546bfc64d868c7161b, type: 3}
+--- !u!4 &150950428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150950426}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &293174604
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,3 +1534,4 @@ SceneRoots:
   - {fileID: 2096330370}
   - {fileID: 855760316}
   - {fileID: 721711473}
+  - {fileID: 150950428}

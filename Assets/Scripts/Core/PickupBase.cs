@@ -11,6 +11,7 @@ public abstract class PickupBase : MonoBehaviour
     protected float baseY;
 
     protected virtual bool CanHover => true;
+    protected virtual bool UsePitchVariation => false;
 
     protected virtual void Awake() => GetComponent<Collider>().isTrigger = true;
     protected virtual void Start() => baseY = transform.position.y;
@@ -32,7 +33,12 @@ public abstract class PickupBase : MonoBehaviour
     {
         if (!TryPickup(other)) return;
         if (collectSound != null && AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFXWithPitchVariation(collectSound);
+        {
+            if (UsePitchVariation)
+                AudioManager.Instance.PlaySFXWithPitchVariation(collectSound);
+            else
+                AudioManager.Instance.PlaySFX(collectSound);
+        }
         Destroy(gameObject);
     }
 }

@@ -8023,6 +8023,97 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &701944089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701944090}
+  - component: {fileID: 701944092}
+  - component: {fileID: 701944091}
+  - component: {fileID: 701944093}
+  m_Layer: 5
+  m_Name: Image Crown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &701944090
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701944089}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1541407598}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -100}
+  m_SizeDelta: {x: 140, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &701944091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701944089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: d074412fecaa4ec479780a546d869c5f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &701944092
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701944089}
+  m_CullTransparentMesh: 1
+--- !u!114 &701944093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701944089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c759cd8098fc44395a639a2fcb2886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImageShimmer
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  shimmerColor: {r: 2, g: 1.6, b: 0.1, a: 1}
+  shimmerSpeed: 2
 --- !u!1 &704769855
 GameObject:
   m_ObjectHideFlags: 0
@@ -11490,8 +11581,11 @@ MonoBehaviour:
   shopScreen: {fileID: 110798737}
   leaderboardContainer: {fileID: 2140618975}
   leaderboardRowPrefab: {fileID: 1804581721019782604, guid: b61be22782e53da4eb6c03c4ebd4067f, type: 3}
+  crownImage: {fileID: 701944089}
+  fakeUpgradeTextA: {fileID: 490334202}
+  fakeUpgradeTextB: {fileID: 1016938018}
   menuMusicLoopClip: {fileID: 8300000, guid: 994bf1febae73eb47a930917c68db362, type: 3}
-  menuAmbienceLoopClip: {fileID: 8300000, guid: 2e066d816796fbc48a8ab557bb0ebfe4, type: 3}
+  menuAmbienceLoopClip: {fileID: 8300000, guid: 520647b0f50947b4198d8ce79a005f90, type: 3}
   audioFadeInDuration: 2
 --- !u!1 &947462320
 GameObject:
@@ -18618,6 +18712,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 490334201}
+  - {fileID: 701944090}
   - {fileID: 1680333642}
   - {fileID: 228095349}
   m_Father: {fileID: 1421513294}
@@ -21211,7 +21306,7 @@ MonoBehaviour:
   musicSlider: {fileID: 1713704151}
   ambienceSlider: {fileID: 811347088}
   sfxSlider: {fileID: 85299683}
-  sfxPreviewClip: {fileID: 8300000, guid: 62801645e96f6f743b0f61d34a5b7b67, type: 3}
+  sfxPreviewClip: {fileID: 8300000, guid: 1802bea394adc004195e6621771a2502, type: 3}
 --- !u!1 &1746495849
 GameObject:
   m_ObjectHideFlags: 0

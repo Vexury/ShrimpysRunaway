@@ -25,6 +25,7 @@ public class Collectible : PickupBase
     public bool MagnetPulled { get; set; }
 
     protected override bool CanHover => !MagnetPulled;
+    protected override bool UsePitchVariation => collectibleType == CollectibleType.Coin;
 
     public void SetRed(bool red)
     {

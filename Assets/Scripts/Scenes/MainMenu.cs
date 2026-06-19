@@ -19,6 +19,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Transform leaderboardContainer;
     [SerializeField] private LeaderboardRow leaderboardRowPrefab;
 
+    [Header("FakeUpgrade")]
+    [SerializeField] private GameObject crownImage;
+    [SerializeField] private TMP_Text fakeUpgradeTextA;
+    [SerializeField] private TMP_Text fakeUpgradeTextB;
+
     [Header("Audio")]
     [SerializeField] private AudioClip menuMusicLoopClip;
     [SerializeField] private AudioClip menuAmbienceLoopClip;
@@ -36,6 +41,8 @@ public class MainMenu : MonoBehaviour
     {
         if (bestDistanceLabel != null)
             bestDistanceLabel.text = $"{HighscoreManager.BestDistance:0} m";
+
+        RefreshFakeUpgrade();
 
         pendingName = HighscoreManager.PlayerName;
 
@@ -145,7 +152,25 @@ public class MainMenu : MonoBehaviour
         SceneController.Instance.LoadNextScene(fade: true);
     }
 
-    public void OnShopClicked() => shopScreen.Show();
+    public void OnShopClicked()
+    {
+        shopScreen.OnPurchase = RefreshFakeUpgrade;
+        shopScreen.Show();
+    }
+
+    public void OnShopClosed()
+    {
+        shopScreen.Hide();
+        RefreshFakeUpgrade();
+    }
+
+    private void RefreshFakeUpgrade()
+    {
+        bool hasFakeUpgrade = UpgradeManager.FakeUpgradeLevel > 0;
+        if (crownImage != null) crownImage.SetActive(hasFakeUpgrade);
+        if (fakeUpgradeTextA != null) fakeUpgradeTextA.text = hasFakeUpgrade ? "Thank you for playing!" : fakeUpgradeTextA.text;
+        if (fakeUpgradeTextB != null) fakeUpgradeTextB.text = hasFakeUpgrade ? "Thank you for playing, Shrimpy is proud of you!" : fakeUpgradeTextB.text;
+    }
 
     public void OnSettingsClicked() { }
 

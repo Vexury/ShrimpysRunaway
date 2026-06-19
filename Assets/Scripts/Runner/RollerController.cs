@@ -118,7 +118,8 @@ public class RollerController : MonoBehaviour
         RollVisual();
         UpdateRollAudio();
         if (UnityEngine.InputSystem.Keyboard.current != null &&
-            UnityEngine.InputSystem.Keyboard.current[UnityEngine.InputSystem.Key.M].wasPressedThisFrame)
+            UnityEngine.InputSystem.Keyboard.current[UnityEngine.InputSystem.Key.M].wasPressedThisFrame &&
+            UnityEngine.InputSystem.Keyboard.current[UnityEngine.InputSystem.Key.LeftCtrl].isPressed)
             CoinWallet.Add(1000);
     }
 
