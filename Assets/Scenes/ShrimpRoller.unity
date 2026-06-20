@@ -1386,6 +1386,7 @@ GameObject:
   - component: {fileID: 447728856}
   - component: {fileID: 447728855}
   - component: {fileID: 447728854}
+  - component: {fileID: 447728857}
   m_Layer: 5
   m_Name: MainMenuButton
   m_TagString: Untagged
@@ -1507,6 +1508,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 447728852}
   m_CullTransparentMesh: 1
+--- !u!114 &447728857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447728852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &485974985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,6 +2722,7 @@ GameObject:
   - component: {fileID: 1053385960}
   - component: {fileID: 1053385959}
   - component: {fileID: 1053385958}
+  - component: {fileID: 1053385961}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -2827,6 +2844,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053385956}
   m_CullTransparentMesh: 1
+--- !u!114 &1053385961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053385956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1148906341
 GameObject:
   m_ObjectHideFlags: 0
@@ -5766,9 +5798,9 @@ RectTransform:
   - {fileID: 1444277631}
   - {fileID: 680976525}
   - {fileID: 1792197317}
+  - {fileID: 979065579}
   - {fileID: 799553243}
   - {fileID: 425932280}
-  - {fileID: 979065579}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

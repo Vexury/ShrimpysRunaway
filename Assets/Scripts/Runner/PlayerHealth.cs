@@ -32,8 +32,6 @@ public class PlayerHealth : MonoBehaviour
     private Quaternion[] armorLocalRot;
     private Vector3[] armorLocalScale;
 
-    public bool HPBoostIntact => currentHP > baseMaxHP;
-
     private void Awake()
     {
         baseMaxHP = maxHP;
